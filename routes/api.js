@@ -23,6 +23,7 @@ function simplify(tlv) {
   simple.length = tlv.getLength();
   simple.value = tlv.getValue();
   simple.size = tlv.getSize();
+  simple.str = tlv.toString();
 
   simple.name = tlv.getName();
   //simple.desc = tlv.getDesc();
@@ -45,18 +46,19 @@ function simplify_html_list(tlv, indent) {
   indent = indent || 0;
   
   var tab = '';
-  for(var i=0; i<indent; i++) {
+  var i;
+  for(i=0; i<indent; i++) {
     tab += '\t';
-  };
+  }
   var arr = [];
   
   var child;
   arr.push(tab + '<ul>');
   
-  for (var i=0; i<tlv.child.length; i++) {
+  for (i=0; i<tlv.child.length; i++) {
     child = tlv.child[i];
     arr.push(tab + '\t<li class="list-group-item">');
-    arr.push(tab + '\t' + '<span class="badge">' + child.getLength() +'</span>');
+    arr.push(tab + '\t<span class="badge">' + child.getLength() +'</span>');
     arr.push(tab + '\t' + child.getTag() +' ' + child.getName());
     arr.push(tab + '\t' + child.getValue());
     arr.push(tab + '\t</li>')
