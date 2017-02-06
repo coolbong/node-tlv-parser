@@ -27,6 +27,15 @@ app.get('/', function(request, response) {
 // JSON API
 app.get('/parse/:data', API.parse);
 
+app.get('/tlv', function (req, res) {
+  
+  console.log('tlv_data: ' + req.query.tlv);
+  var obj = API.tlv_to_html_list(req.query.tlv);
+  res.render('pages/tlv', obj);
+
+});
+
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
