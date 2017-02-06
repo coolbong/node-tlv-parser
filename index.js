@@ -45,32 +45,40 @@ function simplify(tlv) {
 }
 
 
-app.get('/parse/:data', function(req, res) {
-
-  var data = req.params['data'];
-
-  //6F15840E315041592E5359532E4444463031A503880101
-  if (data === undefined) {
-    res.json({});
-    return;
-  }
-
-
-  var tlv;// = TLV.parse(data);
-
+function tlv_parse(data) {
   var obj = {};
+  var tlv;
   try {
     tlv = TLV.parse(data);
   } catch (e) {
     obj.stat = 'fail';
     obj.message = e.toString();
-    res.json(obj);
-    return;
+    
+    return obj;
   }
 
   obj.stat = 'ok';
   obj.tlv = simplify(tlv);
+  return obj;
+}
 
+app.get('/parse/:data', function(req, res) {
+
+  var data = req.params['data'];
+
+  //6F15840E315041592E5359532E4444463031A503880101
+  
+  var obj;
+  if (data === undefined) {
+    obj = {};
+    obj.stat = 'fail';
+    res.json(obj);
+    
+    return;
+  }
+  
+  obj = tlv_parse(data)
+  
   res.json(obj);
 });
 
