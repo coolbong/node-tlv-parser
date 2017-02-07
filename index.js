@@ -27,10 +27,19 @@ app.get('/', function(request, response) {
 // JSON API
 app.get('/parse/:data', API.parse);
 
+app.get('/decode/:data', function(req, res) {
+  var data = req.params['data'];
+  var obj = API.get_tlv(data);
+  //console.log(obj);
+  res.render('pages/tlv', obj);
+});
+
 app.get('/tlv', function (req, res) {
   
   console.log('tlv_data: ' + req.query.tlv);
-  var obj = API.tlv_to_html_list(req.query.tlv);
+  //var obj = API.tlv_to_html_list(req.query.tlv);
+  var obj = API.get_tlv(req.query.tlv);
+  //console.log(obj);
   res.render('pages/tlv', obj);
 
 });

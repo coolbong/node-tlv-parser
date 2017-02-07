@@ -1,7 +1,5 @@
 var TLV = require('node-tlv');
 
-
-
 // '70385F24032012315F25030601019F0702FF005A0854133390000015139F0D05F8406420009F0E0500108800009F0F05F86064F8005F28020056',
 // '70538C279F02069F03069F1A0295055F2A029A039C019F37049F35019F45029F4C089F34039F21039F7C148D12910A8A0295059F37049F4C089F02069F03068E1400000000000000004201440341035E0342031F03',
 // '70339F420209789F0802000257125413339000001513D20122010000000000009F5B0CDF6008DF6108DF6201DF63A09F51039F3704',
@@ -14,60 +12,6 @@ var TLV = require('node-tlv');
 // '70045F340101',
 // '7081B39381B08DF93EE206F8F998F1919B44DDBE3F39337FCACCBFE9F48B7C29EDBF4F766CA0B53A67235D70CCC580B4C166C9B3E3CDC3DCE06D36206AA42EC0BB71366EEA9F2AC31387D138DF4553F7ADE93C4E6C8DAD181435111904A6A7F39A203291F632CF655A7C86FF7872F518F72F946012D3EA7E22F733E4F85CC1D8DB710A80E9E5423B6F83B56F0973121D5217D10E8668D21452834446850B26BA31506B1BF994065B2E3CB5D956F5A8B0646BB232F60B',
 // '7081B49F4681B07896EEC5FCF7F1BF73BD60455E20667B6A72EE9F625E6D97144A1BD0C4F589D271004EEC7DED670A5614F9F9D58D9B1827C3299F8775AC81B63C2DD76BC0AE94C236523F53309267F8F12DA0795F78CFC5F346DF0B16A110C55F4419FAAC363334E7AEB3C5A2A0AA008D49AA139ED8AFB8AA5447E52F878F981126D866808E8EB6B36D2B82440C47C0ED8D9DE0BB58B7C1D6E9D7C308EEF0BDB733E75367231396F338BFFFD1D97B0759F32E719F9F02'
-
-
-function simplify(tlv) {
-
-  var simple = {};
-  simple.tag = tlv.getTag();
-  simple.length = tlv.getLength();
-  simple.value = tlv.getValue();
-  simple.size = tlv.getSize();
-  simple.str = tlv.toString();
-
-  simple.name = tlv.getName();
-  //simple.desc = tlv.getDesc();
-  simple.child = [];
-
-  var child;
-  for (var i=0; i<tlv.child.length; i++) {
-    child = tlv.child[i];
-    //if (child.info.encoding === 'constructed') {
-    simple.child.push(simplify(child));
-    //}
-  }
-  //console.log(simple);
-
-  return simple;
-}
-
-function simplify_html_list(tlv, indent) {
-  
-  indent = indent || 0;
-  
-  var tab = '';
-  var i;
-  for(i=0; i<indent; i++) {
-    tab += '\t';
-  }
-  var arr = [];
-  
-  var child;
-  arr.push(tab + '<ul>');
-  
-  for (i=0; i<tlv.child.length; i++) {
-    child = tlv.child[i];
-    arr.push(tab + '\t<li class="list-group-item">');
-    arr.push(tab + '\t<span class="badge">' + child.getLength() +'</span>');
-    arr.push(tab + '\t' + child.getTag() +' ' + child.getName());
-    arr.push(tab + '\t' + child.getValue());
-    arr.push(tab + '\t</li>')
-  }
-  arr.push(tab + '</ul>');
-  
-  
-  return arr.join('\r\n');
-}
 
 
 function get_tlv(data) {
@@ -83,7 +27,8 @@ function get_tlv(data) {
   }
 
   obj.stat = 'ok';
-  obj.tlv = simplify(tlv);
+  //obj.tlv = simplify(tlv);
+  obj.tlv = tlv;
   return obj;
 }
 
@@ -103,37 +48,9 @@ function parse(req, res) {
   res.json(obj);
 }
 
-
-function tlv_to_html_list(data) {
-  var tlv;
-  var obj = {};
-
-  try {
-    tlv = TLV.parse(data);
-  } catch (e) {
-    obj.code = '<div>error' + e.toString() + '</div>';
-    return obj;
-  }
-  obj.code = simplify_html_list(tlv);
-  return obj;
-}
-
-
-
-
 exports.parse = parse;
 
 module.exports = {
   parse: parse,
   get_tlv: get_tlv,
-  tlv_to_html_list: tlv_to_html_list
 };
-
-
-function main() {
-  //var tlv = TLV.parse('70339F2E030100019F2F2AC5C9852EDB8C522912F3D49EADDDEF2257297F73C9955499297DD3386999A8BD86FEAB16F3191E15287B');
-  var list = tlv_to_html_list('70339F2E030100019F2F2AC5C9852EDB8C522912F3D49EADDDEF2257297F73C9955499297DD3386999A8BD86FEAB16F3191E15287B');
-  console.log(list);
-}
-
-//main();

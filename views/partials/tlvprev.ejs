@@ -1,0 +1,27 @@
+<%
+function html(item, indent) {
+    var space = '    ';
+    var prefix = '';
+    for(var i=0; i<indent; i++) {
+        prefix += space;
+    }
+
+    var header = item.getTag() + ' ' + item.getL() + ' (' + item.getLength()+ ')';
+    var body = '';
+
+    if (item.getName() !== undefined) {
+        header +=' [' + item.getName() + ']';
+    }
+    header += '\n';
+
+    if (item.child.length !== 0) {
+        item.child.forEach(function(child){
+            body += html(child, indent + 1);
+        });
+    } else {
+        body += prefix + space + item.getValue() + '\n';
+    }
+    return prefix + header + body;
+}%>
+
+<%= html(tlv, 0)%>
