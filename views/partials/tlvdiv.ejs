@@ -1,0 +1,27 @@
+<div class="node">
+    <div class="head">
+        <a href="#" onclick="toggleNodeElipse(this)"><%=tlv.getTag()%> <%=tlv.getL()%> (<%=tlv.getLength()%>)
+    <%if (tlv.getName() !== undefined) {%>
+        <span class="name"><%=tlv.getName()%></span>
+    <%}%>
+    <%if (tlv.child.length !== 0) { %>
+        <span class="badge"><%=tlv.child.length%></span>
+    <%}%>
+        </a>
+    </div>
+    <div class="sub">
+    <%if (tlv.child.length !== 0) {%>
+        <%tlv.child.forEach(function (child){%>
+            <%- include('../partials/tlvdiv', {tlv: child}); %>
+        <%});%>
+    <%} else {%>
+        <%= tlv.getValue() %>
+        <%if (tlv.desc !== undefined) {%>
+            <%desc = tlv.desc(tlv);%>
+            <%desc.forEach(function (line) {%>
+                <div class="desc"><%=line%></div>
+            <%});%>
+        <%}%>
+    <%}%>
+    </div>
+</div>

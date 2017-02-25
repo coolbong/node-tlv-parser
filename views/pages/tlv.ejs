@@ -6,16 +6,20 @@
 
 <body>
 
+
 <div class="container">
   <hr>
-  <pre>
-    <%- include ../partials/tlvprev %>
-  </pre>
+  <div class="result">
+    <div class="panel panel-default">
+      <div class="panel-heading"><%=tlv.toString()%></div>
+      <div class="panel-body">
+        <div class="tree">
+            <%- include ../partials/tlvdiv %>
+        </div>
+      </div>
+    </div>
+  </div>
   <hr>
-</div>
-
-<div>
-
 </div>
 
 

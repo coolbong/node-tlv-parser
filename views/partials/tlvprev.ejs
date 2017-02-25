@@ -20,6 +20,9 @@ function html(item, indent) {
         });
     } else {
         body += prefix + space + item.getValue() + '\n';
+        if (item.desc) {
+            body += (prefix + space + item.desc(item).join('\n' + prefix + space)) + '\n';
+        }
     }
     return prefix + header + body;
 }%>

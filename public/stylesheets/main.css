@@ -25,3 +25,46 @@
     .jumbotron .lang-logo img {
       max-width: 100%; }
 
+
+.result {
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 15px;
+  background-color: #ffffff;
+  border-color: #dddddd;
+  border-width: 1px;
+  border-radius: 4px 4px 0 0;
+  box-shadow: none;
+  position: relative;
+  padding: 45px 15px 15px;
+  border-style: solid;
+}
+.node {
+  position: relative
+}
+.node.collapsed > .sub {
+  display: none;
+}
+
+.tree {
+  font-family: "Work Sans",Arial,sans-serif,monospace;
+  font-size: 1.5rem
+}
+
+.head {
+  height: 1.2em;
+  white-space: nowrap;
+}
+
+.name {
+  margin-left:1em;
+  color: #505050;
+}
+
+.sub {
+  padding-left: 1.5em;
+}
+
+.desc {
+  padding-left: 1.0em;
+}

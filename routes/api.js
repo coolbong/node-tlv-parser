@@ -52,5 +52,5 @@ exports.parse = parse;
 
 module.exports = {
   parse: parse,
-  get_tlv: get_tlv,
+  get_tlv: get_tlv
 };
